@@ -1,6 +1,6 @@
 # Demo "Order Drinks with Alan"
 
-This is a demo application that shows how to add a voice experience to the applictaion with the Alan Button.
+This is a demo application that shows how to add a voice experience to the application with the Alan Button.
 
 ## Development server
 
