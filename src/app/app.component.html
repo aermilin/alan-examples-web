@@ -1,0 +1,126 @@
+<mat-toolbar>
+    <span>Order Drinks</span>
+</mat-toolbar>
+<div class="content" *ngIf="isOrderStarted === false">
+    <div class="preview-area">
+        <mat-card height="100%">
+            <div  class="preview-starter">
+                        <br/>
+                        <br/>
+                        <br/>
+                        We glad to see you!
+                   <br/>
+                        Press start button to start making your order.
+                        <br/>
+                        <br/>
+                        <br/>
+                        <br/>
+                <button mat-button (click)="startOrder()"  class="mat-raised-button"  color="primary">
+                    Make an order
+                </button>
+            </div>
+        </mat-card>
+    </div>
+</div>
+<div class="content" *ngIf="isOrderStarted === true">
+    <div class="preview-area">
+        <mat-card>
+            <div class="preview">
+                <div *ngIf="stepper.selectedIndex === 0 && selectedDrink === ''" class="list">
+                    <div class="can-be-highlighted" id="americano">
+                        <img class="small-img" src="../assets/drinks-americano.jpg"/>
+                    </div>
+                    <div id="cappuccino" class="can-be-highlighted">
+                        <img class="small-img" src="../assets/drinks-cappuccino.jpg"/>
+                    </div>
+                    <div id="latte" class="can-be-highlighted">
+                        <img class="small-img" src="../assets/drinks-latte.jpg"/>
+                    </div>
+                </div>
+
+                <div *ngIf="stepper.selectedIndex === 1 && selectedDessert === ''" class="list">
+                    <div class="can-be-highlighted" id="apple pie">
+                        <img class="small-img" src="../assets/dessert-cheesecake.jpg"/>
+                    </div>
+                    <div class="can-be-highlighted" id="cheesecake">
+                        <img class="small-img" src="../assets/dessert-apple-pie.jpg"/>
+                    </div>
+                </div>
+                <img class="big-img" *ngIf="selectedDrink === 'americano' && stepper.selectedIndex === 0"
+                     [@fadeInAndOutAnimation]="selectedDrink" src="../assets/drinks-americano.jpg"/>
+                <img class="big-img" *ngIf="selectedDrink === 'cappuccino' && stepper.selectedIndex === 0"
+                     [@fadeInAndOutAnimation]="selectedDrink" src="../assets/drinks-cappuccino.jpg"/>
+                <img class="big-img" *ngIf="selectedDrink === 'latte' && stepper.selectedIndex === 0"
+                     [@fadeInAndOutAnimation]="selectedDrink" src="../assets/drinks-latte.jpg"/>
+                <img class="big-img" *ngIf="selectedDessert === 'apple pie' && stepper.selectedIndex === 1"
+                     [@fadeInAndOutAnimation]="selectedDessert" src="../assets/dessert-apple-pie.jpg"/>
+                <img class="big-img" *ngIf="selectedDessert === 'cheesecake' && stepper.selectedIndex === 1"
+                     [@fadeInAndOutAnimation]="selectedDessert" src="../assets/dessert-cheesecake.jpg"/>
+                <div *ngIf="stepper.selectedIndex === 2">{{orderDetails}}</div>
+            </div>
+        </mat-card>
+    </div>
+    <br/>
+    <div class="product-area">
+        <mat-card>
+            <mat-horizontal-stepper [linear]="isLinear" #stepper>
+                <mat-step [stepControl]="drinkFormGroup">
+                    <form [formGroup]="drinkFormGroup">
+                        <ng-template matStepLabel>Select your drink</ng-template>
+                        <br/>
+                        <br/>
+                        <mat-button-toggle-group name="drinkType" #group="matButtonToggleGroup"
+                                                 [value]="selectedDrink"
+                                                 (change)="onDrinkTypeValChange(group.value)">
+                            <mat-button-toggle value="americano">Americano</mat-button-toggle>
+                            <mat-button-toggle value="cappuccino">Cappuccino</mat-button-toggle>
+                            <mat-button-toggle value="latte">Latte</mat-button-toggle>
+                        </mat-button-toggle-group>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div>
+                            <button mat-button matStepperNext>Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+                <mat-step [stepControl]="dessertFormGroup">
+                    <form [formGroup]="dessertFormGroup">
+                        <ng-template matStepLabel>Select your dessert</ng-template>
+                        <br/>
+                        <br/>
+                        <mat-button-toggle-group name="dessertType" #group2="matButtonToggleGroup"
+                                                 [value]="selectedDessert"
+                                                 (change)="onDessertValChange(group2.value)">
+                            <mat-button-toggle value="apple pie">Apple Pie</mat-button-toggle>
+                            <mat-button-toggle value="cheesecake">Cheesecake</mat-button-toggle>
+                        </mat-button-toggle-group>
+                        <br/>
+                        <br/>
+                        <br/>
+                        <div>
+                            <button mat-button matStepperPrevious>Back</button>
+                            <button mat-button matStepperNext>Next</button>
+                        </div>
+                    </form>
+                </mat-step>
+                <mat-step>
+                    <ng-template matStepLabel>Done</ng-template>
+                    <br/>
+                    <br/>
+                    You are now done.
+                    <br/>
+                    <br/>
+                    <br/>
+                    <div>
+                        <button mat-button matStepperPrevious>Back</button>
+                        <button mat-button  class="mat-raised-button" color="primary" (click)="showResult()" #btn>
+                            Purchase
+                        </button>
+                    </div>
+                </mat-step>
+            </mat-horizontal-stepper>
+        </mat-card>
+    </div>
+</div>
+<router-outlet></router-outlet>
